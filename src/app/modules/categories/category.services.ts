@@ -2,32 +2,32 @@ import { TCategories } from './category.interface'
 import { Category } from './category.model'
 
 const createCategory = async (payload: TCategories) => {
-  const data = await Category.create(payload)
+  const result = await Category.create(payload)
 
-  return data
+  return result
 }
 const retrieveAllCategory = async () => {
-  const data = await Category.find()
+  const result = await Category.find()
 
-  return data
+  return result
 }
 const retrieveSingleCategory = async (id: string) => {
-  const data = await Category.findById(id)
+  const result = await Category.findById(id)
 
-  return data
+  return result
 }
 const updateCategory = async (id: string, payload: Partial<TCategories>) => {
-  const data = await Category.findByIdAndUpdate(id, payload, {
+  const result = await Category.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,
   })
 
-  return data
+  return result
 }
 const deleteCategory = async (id: string) => {
-  const data = await Category.findByIdAndDelete(id)
+  const result = await Category.findByIdAndDelete(id)
 
-  return data
+  return result
 }
 
 export const categoryServices = {

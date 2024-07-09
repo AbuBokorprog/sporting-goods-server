@@ -3,27 +3,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.categoryServices = void 0;
 const category_model_1 = require("./category.model");
 const createCategory = async (payload) => {
-    const data = await category_model_1.Category.create(payload);
-    return data;
+    const result = await category_model_1.Category.create(payload);
+    return result;
 };
 const retrieveAllCategory = async () => {
-    const data = await category_model_1.Category.find();
-    return data;
+    const result = await category_model_1.Category.find();
+    return result;
 };
 const retrieveSingleCategory = async (id) => {
-    const data = await category_model_1.Category.findById(id);
-    return data;
+    const result = await category_model_1.Category.findById(id);
+    return result;
 };
 const updateCategory = async (id, payload) => {
-    const data = await category_model_1.Category.findByIdAndUpdate(id, payload, {
+    const result = await category_model_1.Category.findByIdAndUpdate(id, payload, {
         new: true,
         runValidators: true,
     });
-    return data;
+    return result;
 };
 const deleteCategory = async (id) => {
-    const data = await category_model_1.Category.findByIdAndDelete(id);
-    return data;
+    const result = await category_model_1.Category.findByIdAndDelete(id);
+    return result;
 };
 exports.categoryServices = {
     createCategory,
