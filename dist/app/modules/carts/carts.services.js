@@ -47,11 +47,40 @@ const retrieveSingleCart = async (id) => {
     return result;
 };
 const updateCart = async (id, payload) => {
-    const result = await carts_model_1.Cart.findByIdAndUpdate(id, payload, {
-        new: true,
-        runValidators: true,
-    });
-    return result;
+    const vat = 0.15;
+    const isExistCart = await carts_model_1.Cart.findById(id);
+    if (!isExistCart) {
+        throw new Error('Cart not found');
+    }
+    // check isExistProduct
+    const isExistProduct = await products_model_1.default.findById(isExistCart?.product_id);
+    if (!isExistProduct) {
+        throw new Error('The product not found');
+    }
+    // if payload.quantity === -1 cart quantity and total_price will be decrease
+    if (payload.quantity === -1) {
+        isExistCart.quantity = isExistCart.quantity - 1;
+        // total price of product
+        const totalPriceWithoutVat = isExistProduct?.price * isExistCart.quantity;
+        const totalPriceWithVat = (totalPriceWithoutVat +
+            totalPriceWithoutVat * vat).toFixed(2);
+        // set total price with vat
+        isExistCart.total_price = Number(totalPriceWithVat);
+        await isExistCart.save();
+        return isExistCart;
+    }
+    else {
+        // if payload.quantity !== -1 cart quantity and total_price will be decrease
+        isExistCart.quantity = isExistCart.quantity + 1;
+        // total price of product
+        const totalPriceWithoutVat = isExistProduct?.price * isExistCart.quantity;
+        const totalPriceWithVat = (totalPriceWithoutVat +
+            totalPriceWithoutVat * vat).toFixed(2);
+        // set total price with vat
+        isExistCart.total_price = Number(totalPriceWithVat);
+        await isExistCart.save();
+        return isExistCart;
+    }
 };
 const deleteCart = async (id) => {
     const result = await carts_model_1.Cart.findByIdAndDelete(id);

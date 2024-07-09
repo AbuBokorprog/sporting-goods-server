@@ -58,13 +58,55 @@ const retrieveSingleCart = async (id: string) => {
   const result = await Cart.findById(id)
   return result
 }
-const updateCart = async (id: string, payload: Partial<TCart>) => {
-  const result = await Cart.findByIdAndUpdate(id, payload, {
-    new: true,
-    runValidators: true,
-  })
 
-  return result
+const updateCart = async (id: string, payload: Partial<TCart>) => {
+  const vat = 0.15
+  const isExistCart = await Cart.findById(id)
+
+  if (!isExistCart) {
+    throw new Error('Cart not found')
+  }
+
+  // check isExistProduct
+  const isExistProduct = await Products.findById(isExistCart?.product_id)
+
+  if (!isExistProduct) {
+    throw new Error('The product not found')
+  }
+
+  // if payload.quantity === -1 cart quantity and total_price will be decrease
+  if (payload.quantity === -1) {
+    isExistCart.quantity = isExistCart.quantity - 1
+
+    // total price of product
+    const totalPriceWithoutVat = isExistProduct?.price * isExistCart.quantity
+
+    const totalPriceWithVat = (
+      totalPriceWithoutVat +
+      totalPriceWithoutVat * vat
+    ).toFixed(2)
+    // set total price with vat
+    isExistCart.total_price = Number(totalPriceWithVat)
+
+    await isExistCart.save()
+    return isExistCart
+  } else {
+    // if payload.quantity !== -1 cart quantity and total_price will be decrease
+    isExistCart.quantity = isExistCart.quantity + 1
+
+    // total price of product
+    const totalPriceWithoutVat = isExistProduct?.price * isExistCart.quantity
+
+    const totalPriceWithVat = (
+      totalPriceWithoutVat +
+      totalPriceWithoutVat * vat
+    ).toFixed(2)
+    // set total price with vat
+    isExistCart.total_price = Number(totalPriceWithVat)
+
+    await isExistCart.save()
+    return isExistCart
+  }
 }
 
 const deleteCart = async (id: string) => {
