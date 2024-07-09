@@ -9,10 +9,25 @@ const createProductIntoDB = async (payload) => {
     const result = await products_model_1.default.create(payload);
     return result;
 };
-const retrieveAllProducts = async () => { };
-const retrieveSingleProduct = async () => { };
-const updateSingleProduct = async () => { };
-const deleteSingleProduct = async () => { };
+const retrieveAllProducts = async () => {
+    const result = await products_model_1.default.find();
+    return result;
+};
+const retrieveSingleProduct = async (id) => {
+    const result = await products_model_1.default.findById(id);
+    return result;
+};
+const updateSingleProduct = async (id, payload) => {
+    const result = await products_model_1.default.findByIdAndUpdate(id, payload, {
+        new: true,
+        runValidators: true,
+    });
+    return result;
+};
+const deleteSingleProduct = async (id) => {
+    const result = await products_model_1.default.findByIdAndDelete(id);
+    return result;
+};
 exports.productsServices = {
     createProductIntoDB,
     retrieveAllProducts,

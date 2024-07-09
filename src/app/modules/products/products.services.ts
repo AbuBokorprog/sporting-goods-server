@@ -6,10 +6,29 @@ const createProductIntoDB = async (payload: TProducts) => {
 
   return result
 }
-const retrieveAllProducts = async () => {}
-const retrieveSingleProduct = async () => {}
-const updateSingleProduct = async () => {}
-const deleteSingleProduct = async () => {}
+const retrieveAllProducts = async () => {
+  const result = await Products.find()
+
+  return result
+}
+const retrieveSingleProduct = async (id: string) => {
+  const result = await Products.findById(id)
+
+  return result
+}
+const updateSingleProduct = async (id: string, payload: Partial<TProducts>) => {
+  const result = await Products.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true,
+  })
+
+  return result
+}
+const deleteSingleProduct = async (id: string) => {
+  const result = await Products.findByIdAndDelete(id)
+
+  return result
+}
 
 export const productsServices = {
   createProductIntoDB,
