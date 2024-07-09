@@ -3,10 +3,10 @@ interface TProducts {
   description: string
   category: string
   brand: string
-  stock_quantity: string
-  rating: string
+  stock_quantity: number
+  rating: number
   product_description: string
-  price: string
+  price: number
   image: string
 }
 
