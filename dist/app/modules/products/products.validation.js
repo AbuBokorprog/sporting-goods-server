@@ -4,7 +4,7 @@ exports.updateProductValidationSchema = exports.createdProductValidationSchema =
 const zod_1 = require("zod");
 const createdProductValidationSchema = zod_1.z.object({
     product_name: zod_1.z.string(),
-    image: zod_1.z.string(),
+    image: zod_1.z.array(zod_1.z.string()),
     category: zod_1.z.string(),
     description: zod_1.z.string(),
     brand: zod_1.z.string(),
@@ -16,7 +16,7 @@ const createdProductValidationSchema = zod_1.z.object({
 exports.createdProductValidationSchema = createdProductValidationSchema;
 const updateProductValidationSchema = zod_1.z.object({
     product_name: zod_1.z.string().optional(),
-    image: zod_1.z.string().optional(),
+    image: zod_1.z.array(zod_1.z.string()).optional(),
     category: zod_1.z.string().optional(),
     description: zod_1.z.string().optional(),
     brand: zod_1.z.string().optional(),

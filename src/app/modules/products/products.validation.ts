@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 const createdProductValidationSchema = z.object({
   product_name: z.string(),
-  image: z.string(),
+  image: z.array(z.string()),
   category: z.string(),
   description: z.string(),
   brand: z.string(),
@@ -14,7 +14,7 @@ const createdProductValidationSchema = z.object({
 
 const updateProductValidationSchema = z.object({
   product_name: z.string().optional(),
-  image: z.string().optional(),
+  image: z.array(z.string()).optional(),
   category: z.string().optional(),
   description: z.string().optional(),
   brand: z.string().optional(),
