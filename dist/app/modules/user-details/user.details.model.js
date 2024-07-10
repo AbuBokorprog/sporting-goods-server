@@ -18,5 +18,7 @@ const userDetailsSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+}, {
+    timestamps: true,
 });
 exports.UserDetails = (0, mongoose_1.model)('user-detail', userDetailsSchema);
