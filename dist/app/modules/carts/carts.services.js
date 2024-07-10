@@ -4,8 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cartServices = void 0;
+const http_status_1 = __importDefault(require("http-status"));
 const products_model_1 = __importDefault(require("../products/products.model"));
 const carts_model_1 = require("./carts.model");
+const AppError_1 = require("../../error/AppError");
 const createCart = async (payload) => {
     // vat 0.15 add in total price
     const vat = 0.15;
@@ -40,10 +42,16 @@ const createCart = async (payload) => {
 };
 const retrieveAllCart = async () => {
     const result = await carts_model_1.Cart.find().populate('product_id');
+    if (!result || result?.length <= 0) {
+        throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Carts not found!');
+    }
     return result;
 };
 const retrieveSingleCart = async (id) => {
     const result = await carts_model_1.Cart.findById(id);
+    if (!result) {
+        throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Cart not found!');
+    }
     return result;
 };
 const updateCart = async (id, payload) => {
@@ -84,6 +92,9 @@ const updateCart = async (id, payload) => {
 };
 const deleteCart = async (id) => {
     const result = await carts_model_1.Cart.findByIdAndDelete(id);
+    if (!result) {
+        throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Delete cart failed!');
+    }
     return result;
 };
 exports.cartServices = {

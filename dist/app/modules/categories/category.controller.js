@@ -13,7 +13,7 @@ const createCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
     (0, successResponse_1.successResponse)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Created category',
+        message: 'Created category successfully',
         data,
     });
 });
@@ -22,7 +22,7 @@ const retrieveAllCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
     (0, successResponse_1.successResponse)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Retrieved all category',
+        message: 'Retrieved all categories successfully',
         data,
     });
 });
@@ -31,7 +31,7 @@ const retrieveSingleCategory = (0, catchAsync_1.catchAsync)(async (req, res) => 
     (0, successResponse_1.successResponse)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Retrieved single category',
+        message: 'Retrieved single category successfully',
         data,
     });
 });
@@ -40,7 +40,7 @@ const updateCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
     (0, successResponse_1.successResponse)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Updated category',
+        message: 'Updated category successfully',
         data,
     });
 });
@@ -49,7 +49,7 @@ const deleteCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
     (0, successResponse_1.successResponse)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Deleted category',
+        message: 'Deleted category successfully',
         data,
     });
 });

@@ -1,6 +1,8 @@
+import httpStatus from 'http-status'
 import Products from '../products/products.model'
 import { TCart } from './carts.interface'
 import { Cart } from './carts.model'
+import { AppError } from '../../error/AppError'
 
 const createCart = async (payload: TCart) => {
   // vat 0.15 add in total price
@@ -51,11 +53,20 @@ const createCart = async (payload: TCart) => {
 const retrieveAllCart = async () => {
   const result = await Cart.find().populate('product_id')
 
+  if (!result || result?.length <= 0) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Carts not found!')
+  }
+
   return result
 }
 
 const retrieveSingleCart = async (id: string) => {
   const result = await Cart.findById(id)
+
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Cart not found!')
+  }
+
   return result
 }
 
@@ -111,6 +122,10 @@ const updateCart = async (id: string, payload: Partial<TCart>) => {
 
 const deleteCart = async (id: string) => {
   const result = await Cart.findByIdAndDelete(id)
+
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Delete cart failed!')
+  }
 
   return result
 }

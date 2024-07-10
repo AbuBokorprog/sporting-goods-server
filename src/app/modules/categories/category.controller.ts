@@ -9,7 +9,7 @@ const createCategory = catchAsync(async (req, res) => {
   successResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Created category',
+    message: 'Created category successfully',
     data,
   })
 })
@@ -19,7 +19,7 @@ const retrieveAllCategory = catchAsync(async (req, res) => {
   successResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Retrieved all category',
+    message: 'Retrieved all categories successfully',
     data,
   })
 })
@@ -29,7 +29,7 @@ const retrieveSingleCategory = catchAsync(async (req, res) => {
   successResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Retrieved single category',
+    message: 'Retrieved single category successfully',
     data,
   })
 })
@@ -39,7 +39,7 @@ const updateCategory = catchAsync(async (req, res) => {
   successResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Updated category',
+    message: 'Updated category successfully',
     data,
   })
 })
@@ -49,7 +49,7 @@ const deleteCategory = catchAsync(async (req, res) => {
   successResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Deleted category',
+    message: 'Deleted category successfully',
     data,
   })
 })
