@@ -1,7 +1,7 @@
-import { TUSer } from './user.details.interface'
+import { TUser } from './user.details.interface'
 import { UserDetails } from './user.details.model'
 
-const createUserDetails = async (payload: TUSer) => {
+const createUserDetails = async (payload: TUser) => {
   const result = await UserDetails.create(payload)
 
   return result

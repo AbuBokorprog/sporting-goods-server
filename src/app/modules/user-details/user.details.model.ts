@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose'
-import { TUSer } from './user.details.interface'
+import { TUser } from './user.details.interface'
 
-const userDetailsSchema = new Schema<TUSer>({
+const userDetailsSchema = new Schema<TUser>({
   name: {
     type: String,
     required: true,

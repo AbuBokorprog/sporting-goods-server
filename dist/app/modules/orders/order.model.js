@@ -2,6 +2,49 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Order = void 0;
 const mongoose_1 = require("mongoose");
+const ProductsSchema = new mongoose_1.Schema({
+    product_name: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    image: {
+        type: String,
+        required: true,
+    },
+    category: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    brand: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    price: {
+        type: Number,
+        required: true,
+    },
+    product_description: {
+        type: String,
+        required: true,
+    },
+    rating: {
+        type: Number,
+        required: true,
+    },
+    stock_quantity: {
+        type: Number,
+        required: true,
+    },
+}, {
+    timestamps: true,
+});
 const OrderSchema = new mongoose_1.Schema({
     customer_name: {
         type: String,
@@ -12,7 +55,7 @@ const OrderSchema = new mongoose_1.Schema({
         required: true,
     },
     customer_phone: {
-        type: String,
+        type: Number,
         required: true,
     },
     customer_delivery_address: {
@@ -20,7 +63,7 @@ const OrderSchema = new mongoose_1.Schema({
         required: true,
     },
     products: {
-        type: Array,
+        type: ProductsSchema,
         required: true,
     },
     total_price: {

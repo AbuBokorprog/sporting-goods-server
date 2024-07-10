@@ -1,4 +1,4 @@
-export interface TUSer {
+export interface TUser {
   name: string
   email: string
   phone: number

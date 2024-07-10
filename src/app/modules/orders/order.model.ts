@@ -1,6 +1,55 @@
 import { model, Schema } from 'mongoose'
+import { TOrder } from './order.interface'
+import TProducts from '../products/products.interface'
 
-const OrderSchema = new Schema({
+const ProductsSchema = new Schema<TProducts>(
+  {
+    product_name: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    brand: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    product_description: {
+      type: String,
+      required: true,
+    },
+    rating: {
+      type: Number,
+      required: true,
+    },
+    stock_quantity: {
+      type: Number,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  },
+)
+
+const OrderSchema = new Schema<TOrder>({
   customer_name: {
     type: String,
     required: true,
@@ -10,7 +59,7 @@ const OrderSchema = new Schema({
     required: true,
   },
   customer_phone: {
-    type: String,
+    type: Number,
     required: true,
   },
   customer_delivery_address: {
@@ -18,7 +67,7 @@ const OrderSchema = new Schema({
     required: true,
   },
   products: {
-    type: Array,
+    type: ProductsSchema,
     required: true,
   },
   total_price: {
