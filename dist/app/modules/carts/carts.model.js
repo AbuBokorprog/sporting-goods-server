@@ -17,5 +17,7 @@ const cartsSchema = new mongoose_1.Schema({
         type: Number,
         required: true,
     },
+}, {
+    timestamps: true,
 });
 exports.Cart = (0, mongoose_1.model)('cart', cartsSchema);
