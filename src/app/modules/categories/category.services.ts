@@ -4,6 +4,7 @@ import { TCategories } from './category.interface'
 import { Category } from './category.model'
 
 const createCategory = async (payload: TCategories) => {
+  payload.slug = payload.category_name.toLowerCase()
   const result = await Category.create(payload)
 
   if (!result) {
