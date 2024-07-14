@@ -13,6 +13,10 @@ const CategorySchema = new Schema<TCategories>(
       required: true,
       unique: true,
     },
+    image: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

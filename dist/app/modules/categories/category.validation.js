@@ -4,7 +4,9 @@ exports.updateCategoryValidationSchema = exports.createCategoryValidationSchema 
 const zod_1 = require("zod");
 exports.createCategoryValidationSchema = zod_1.z.object({
     category_name: zod_1.z.string({ message: 'Category name is required' }),
+    image: zod_1.z.string({ message: 'Image is required' }),
 });
 exports.updateCategoryValidationSchema = zod_1.z.object({
     category_name: zod_1.z.string().optional(),
+    image: zod_1.z.string().optional(),
 });
