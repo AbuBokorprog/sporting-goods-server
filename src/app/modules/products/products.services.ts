@@ -13,7 +13,7 @@ const createProductIntoDB = async (payload: TProducts) => {
   return result
 }
 const retrieveAllProducts = async () => {
-  const result = await Products.find()
+  const result = await Products.find().populate('category')
 
   if (!result || result?.length <= 0) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Product not found!')

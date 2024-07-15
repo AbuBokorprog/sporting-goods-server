@@ -10,13 +10,14 @@ const ProductsSchema = new Schema<TProducts>(
       unique: true,
     },
     image: {
-      type: String,
+      type: [String],
       required: true,
     },
     category: {
-      type: String,
+      type: Schema.Types.ObjectId,
       required: true,
       unique: true,
+      ref: 'category',
     },
     description: {
       type: String,

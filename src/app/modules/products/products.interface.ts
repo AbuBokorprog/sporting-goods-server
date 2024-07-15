@@ -1,13 +1,15 @@
+import { Types } from 'mongoose'
+
 interface TProducts {
   product_name: string
   description: string
-  category: string
+  category: Types.ObjectId
   brand: string
   stock_quantity: number
   rating: number
   product_description: string
   price: number
-  image: string
+  image: Array<string>
 }
 
 export default TProducts

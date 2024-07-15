@@ -1,4 +1,4 @@
-import mongoose, { model } from 'mongoose'
+import mongoose, { model, Schema } from 'mongoose'
 import TProducts from './products.interface'
 
 const ProductsSchema = new mongoose.Schema<TProducts>(
@@ -9,13 +9,14 @@ const ProductsSchema = new mongoose.Schema<TProducts>(
       unique: true,
     },
     image: {
-      type: String,
+      type: [String],
       required: true,
     },
     category: {
-      type: String,
+      type: Schema.Types.ObjectId,
       required: true,
       unique: true,
+      ref: 'category',
     },
     description: {
       type: String,
