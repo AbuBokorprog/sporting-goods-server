@@ -15,7 +15,7 @@ const createProductIntoDB = async (payload) => {
     return result;
 };
 const retrieveAllProducts = async () => {
-    const result = await products_model_1.default.find();
+    const result = await products_model_1.default.find().populate('category');
     if (!result || result?.length <= 0) {
         throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Product not found!');
     }

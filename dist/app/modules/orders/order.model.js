@@ -9,13 +9,14 @@ const ProductsSchema = new mongoose_1.Schema({
         unique: true,
     },
     image: {
-        type: String,
+        type: [String],
         required: true,
     },
     category: {
-        type: String,
+        type: mongoose_1.Schema.Types.ObjectId,
         required: true,
         unique: true,
+        ref: 'category',
     },
     description: {
         type: String,
