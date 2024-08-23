@@ -71,6 +71,15 @@ const retrieveSingleProduct = async (id: string) => {
 
   return result
 }
+
+const retrieveProductsByCategory = async (category: string) => {
+  const result = await Products.find({ category })
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Product not found!')
+  }
+  return result
+}
+
 const updateSingleProduct = async (id: string, payload: Partial<TProducts>) => {
   const result = await Products.findByIdAndUpdate(id, payload, {
     new: true,
@@ -97,6 +106,7 @@ export const productsServices = {
   createProductIntoDB,
   retrieveAllProducts,
   retrieveSingleProduct,
+  retrieveProductsByCategory,
   updateSingleProduct,
   deleteSingleProduct,
 }

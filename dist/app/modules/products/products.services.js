@@ -61,6 +61,13 @@ const retrieveSingleProduct = async (id) => {
     }
     return result;
 };
+const retrieveProductsByCategory = async (category) => {
+    const result = await products_model_1.default.find({ category });
+    if (!result) {
+        throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Product not found!');
+    }
+    return result;
+};
 const updateSingleProduct = async (id, payload) => {
     const result = await products_model_1.default.findByIdAndUpdate(id, payload, {
         new: true,
@@ -82,6 +89,7 @@ exports.productsServices = {
     createProductIntoDB,
     retrieveAllProducts,
     retrieveSingleProduct,
+    retrieveProductsByCategory,
     updateSingleProduct,
     deleteSingleProduct,
 };

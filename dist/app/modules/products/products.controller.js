@@ -58,6 +58,15 @@ const retrieveSingleProduct = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+const retrieveProductsByCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    const data = await products_services_1.productsServices.retrieveProductsByCategory(req.params.category);
+    (0, successResponse_1.successResponse)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Retrieve products by category',
+        data,
+    });
+});
 const updateSingleProduct = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await products_services_1.productsServices.updateSingleProduct(req.params.id, req.body);
     (0, successResponse_1.successResponse)(res, {
@@ -82,4 +91,5 @@ exports.productsControllers = {
     retrieveSingleProduct,
     updateSingleProduct,
     deleteSingleProduct,
+    retrieveProductsByCategory,
 };
