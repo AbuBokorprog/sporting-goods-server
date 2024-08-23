@@ -1,7 +1,9 @@
 import httpStatus from 'http-status'
 import { AppError } from '../../error/AppError'
-import TProducts from './products.interface'
 import Products from './products.model'
+import { Document, FilterQuery } from 'mongoose'
+import { ProductFilter } from './products.utils'
+import TProducts from './products.interface'
 
 const createProductIntoDB = async (payload: TProducts) => {
   const result = await Products.create(payload)
@@ -12,14 +14,53 @@ const createProductIntoDB = async (payload: TProducts) => {
 
   return result
 }
-const retrieveAllProducts = async () => {
+const retrieveAllProducts = async (
+  filter: FilterQuery<Document<ProductFilter>>,
+) => {
   const result = await Products.find().populate('category')
 
   if (!result || result?.length <= 0) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Product not found!')
   }
 
-  return result
+  // Apply additional filtering on the server side
+  const result1 = result.filter((product: TProducts) => {
+    let matches = true
+
+    if (
+      filter.category &&
+      product.category._id.toString() !== filter.category
+    ) {
+      matches = false
+    }
+    if (filter.minPrice !== undefined && product.price < filter.minPrice) {
+      matches = false
+    }
+    if (filter.maxPrice !== undefined && product.price > filter.maxPrice) {
+      matches = false
+    }
+    if (filter.rating !== undefined && product.rating < filter.rating) {
+      matches = false
+    }
+    if (filter.brand && product.brand !== filter.brand) {
+      matches = false
+    }
+
+    return matches
+  })
+
+  // Sort the filtered products
+  const sortedProducts = result1.sort((a: TProducts, b: TProducts) => {
+    if (filter.sortOrder === 'price-asc') {
+      return a.price - b.price // Low to high
+    } else if (filter.sortOrder === 'price-desc') {
+      return b.price - a.price // High to low
+    } else {
+      return 0 // No sorting
+    }
+  })
+
+  return sortedProducts
 }
 const retrieveSingleProduct = async (id: string) => {
   const result = await Products.findById(id)

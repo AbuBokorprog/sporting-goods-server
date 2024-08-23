@@ -18,7 +18,30 @@ const createProductIntoDB = (0, catchAsync_1.catchAsync)(async (req, res) => {
     });
 });
 const retrieveAllProducts = (0, catchAsync_1.catchAsync)(async (req, res) => {
-    const data = await products_services_1.productsServices.retrieveAllProducts();
+    const { category, minPrice, maxPrice, rating, brand, sortOrder } = req.query;
+    // Build filter object based on query parameters
+    const filter = {};
+    if (category) {
+        filter.category = category;
+    }
+    if (minPrice) {
+        filter.minPrice = parseFloat(minPrice);
+    }
+    if (maxPrice) {
+        filter.maxPrice = parseFloat(maxPrice);
+    }
+    if (rating) {
+        filter.rating = parseFloat(rating);
+    }
+    if (brand) {
+        filter.brand = brand;
+    }
+    if (sortOrder) {
+        filter.sortOrder = sortOrder;
+    }
+    // Fetch data from the service layer with applied filters
+    const data = await products_services_1.productsServices.retrieveAllProducts(filter);
+    // Send a successful response with the filtered data
     (0, successResponse_1.successResponse)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

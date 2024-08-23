@@ -1,6 +1,6 @@
 import { Types } from 'mongoose'
 
-interface TProducts {
+export default interface TProducts {
   product_name: string
   description: string
   category: Types.ObjectId
@@ -11,5 +11,3 @@ interface TProducts {
   price: number
   image: Array<string>
 }
-
-export default TProducts

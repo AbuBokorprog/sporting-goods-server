@@ -14,12 +14,45 @@ const createProductIntoDB = async (payload) => {
     }
     return result;
 };
-const retrieveAllProducts = async () => {
+const retrieveAllProducts = async (filter) => {
     const result = await products_model_1.default.find().populate('category');
     if (!result || result?.length <= 0) {
         throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Product not found!');
     }
-    return result;
+    // Apply additional filtering on the server side
+    const result1 = result.filter((product) => {
+        let matches = true;
+        if (filter.category &&
+            product.category._id.toString() !== filter.category) {
+            matches = false;
+        }
+        if (filter.minPrice !== undefined && product.price < filter.minPrice) {
+            matches = false;
+        }
+        if (filter.maxPrice !== undefined && product.price > filter.maxPrice) {
+            matches = false;
+        }
+        if (filter.rating !== undefined && product.rating < filter.rating) {
+            matches = false;
+        }
+        if (filter.brand && product.brand !== filter.brand) {
+            matches = false;
+        }
+        return matches;
+    });
+    // Sort the filtered products
+    const sortedProducts = result1.sort((a, b) => {
+        if (filter.sortOrder === 'price-asc') {
+            return a.price - b.price; // Low to high
+        }
+        else if (filter.sortOrder === 'price-desc') {
+            return b.price - a.price; // High to low
+        }
+        else {
+            return 0; // No sorting
+        }
+    });
+    return sortedProducts;
 };
 const retrieveSingleProduct = async (id) => {
     const result = await products_model_1.default.findById(id);

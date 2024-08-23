@@ -37,7 +37,6 @@ const ProductsSchema = new mongoose_1.default.Schema({
     category: {
         type: mongoose_1.Schema.Types.ObjectId,
         required: true,
-        unique: true,
         ref: 'category',
     },
     description: {
@@ -47,7 +46,6 @@ const ProductsSchema = new mongoose_1.default.Schema({
     brand: {
         type: String,
         required: true,
-        unique: true,
     },
     price: {
         type: Number,

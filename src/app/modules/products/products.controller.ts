@@ -2,6 +2,7 @@ import httpStatus from 'http-status'
 import { catchAsync } from '../../utils/catchAsync'
 import { successResponse } from '../../utils/successResponse'
 import { productsServices } from './products.services'
+import { ProductFilter } from './products.utils'
 
 const createProductIntoDB = catchAsync(async (req, res) => {
   const data = await productsServices.createProductIntoDB(req.body)
@@ -14,8 +15,38 @@ const createProductIntoDB = catchAsync(async (req, res) => {
   })
 })
 const retrieveAllProducts = catchAsync(async (req, res) => {
-  const data = await productsServices.retrieveAllProducts()
+  const { category, minPrice, maxPrice, rating, brand, sortOrder } = req.query
 
+  // Build filter object based on query parameters
+  const filter: ProductFilter = {}
+
+  if (category) {
+    filter.category = category as string
+  }
+
+  if (minPrice) {
+    filter.minPrice = parseFloat(minPrice as string)
+  }
+
+  if (maxPrice) {
+    filter.maxPrice = parseFloat(maxPrice as string)
+  }
+
+  if (rating) {
+    filter.rating = parseFloat(rating as string)
+  }
+
+  if (brand) {
+    filter.brand = brand as string
+  }
+  if (sortOrder) {
+    filter.sortOrder = sortOrder as string
+  }
+
+  // Fetch data from the service layer with applied filters
+  const data = await productsServices.retrieveAllProducts(filter)
+
+  // Send a successful response with the filtered data
   successResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -23,6 +54,7 @@ const retrieveAllProducts = catchAsync(async (req, res) => {
     data,
   })
 })
+
 const retrieveSingleProduct = catchAsync(async (req, res) => {
   const data = await productsServices.retrieveSingleProduct(req.params.id)
 
