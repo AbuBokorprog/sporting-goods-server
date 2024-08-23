@@ -15,7 +15,6 @@ const ProductsSchema = new mongoose.Schema<TProducts>(
     category: {
       type: Schema.Types.ObjectId,
       required: true,
-      unique: true,
       ref: 'category',
     },
     description: {
@@ -25,7 +24,6 @@ const ProductsSchema = new mongoose.Schema<TProducts>(
     brand: {
       type: String,
       required: true,
-      unique: true,
     },
     price: {
       type: Number,
