@@ -17,13 +17,25 @@ const createProductIntoDB = async (payload: TProducts) => {
 const retrieveAllProducts = async (
   filter: FilterQuery<Document<ProductFilter>>,
 ) => {
-  const result = await Products.find().populate('category')
+  // pagination
+
+  const page = Number(filter.page)
+  const limit = 10
+  const skip = (Number(page) - 1) * limit
+  const result = await Products.find()
+    .populate('category')
+    .skip(skip)
+    .limit(limit)
+
+  const totalProducts = await Products.countDocuments() // Total number of products
+  const totalPages = Math.ceil(totalProducts / limit) // Total number of pages
 
   if (!result || result?.length <= 0) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Product not found!')
   }
 
   // Apply additional filtering on the server side
+
   const result1 = result.filter((product: TProducts) => {
     let matches = true
 
@@ -60,7 +72,11 @@ const retrieveAllProducts = async (
     }
   })
 
-  return sortedProducts
+  return {
+    sortedProducts,
+    totalPages,
+    page,
+  }
 }
 const retrieveSingleProduct = async (id: string) => {
   const result = await Products.findById(id)

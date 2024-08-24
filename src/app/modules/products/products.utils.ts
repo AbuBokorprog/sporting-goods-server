@@ -6,4 +6,5 @@ export interface ProductFilter {
   rating?: number
   brand?: string
   sortOrder?: string
+  page?: string
 }

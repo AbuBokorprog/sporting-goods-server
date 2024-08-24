@@ -15,7 +15,8 @@ const createProductIntoDB = catchAsync(async (req, res) => {
   })
 })
 const retrieveAllProducts = catchAsync(async (req, res) => {
-  const { category, minPrice, maxPrice, rating, brand, sortOrder } = req.query
+  const { category, minPrice, maxPrice, rating, brand, sortOrder, page } =
+    req.query
 
   // Build filter object based on query parameters
   const filter: ProductFilter = {}
@@ -42,9 +43,18 @@ const retrieveAllProducts = catchAsync(async (req, res) => {
   if (sortOrder) {
     filter.sortOrder = sortOrder as string
   }
+  if (page) {
+    filter.page = page as string
+  }
 
   // Fetch data from the service layer with applied filters
-  const data = await productsServices.retrieveAllProducts(filter)
+  const result = await productsServices.retrieveAllProducts(filter)
+
+  const data = {
+    totalPages: result?.totalPages,
+    page: result?.page,
+    data: result?.sortedProducts,
+  }
 
   // Send a successful response with the filtered data
   successResponse(res, {
