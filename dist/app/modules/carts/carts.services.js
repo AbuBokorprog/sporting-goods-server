@@ -29,14 +29,21 @@ const createCart = async (payload) => {
         isExistCart.total_price = Number(totalPriceWithVat);
         // save existingCart
         await isExistCart.save();
+        // product stock quantity decrease after added cart.
+        isExistProduct.stock_quantity = isExistProduct.stock_quantity - 1;
+        await isExistProduct.save();
         return isExistCart;
     }
     else {
         // if cart of product is new
-        const total_price = Number(isExistProduct.price + isExistProduct.price * vat).toFixed(2);
-        payload.total_price = Number(total_price);
+        const totalPriceWithVat = Number(isExistProduct.price + isExistProduct.price * vat).toFixed(2);
+        payload.total_price = Number(totalPriceWithVat);
         payload.quantity = 1;
+        // save cart
         const result = await carts_model_1.Cart.create(payload);
+        // product stock quantity decrease after added cart.
+        isExistProduct.stock_quantity = isExistProduct.stock_quantity - 1;
+        await isExistProduct.save();
         return result;
     }
 };
@@ -74,7 +81,11 @@ const updateCart = async (id, payload) => {
             totalPriceWithoutVat * vat).toFixed(2);
         // set total price with vat
         isExistCart.total_price = Number(totalPriceWithVat);
+        //save & decrease cart
         await isExistCart.save();
+        // after cart quantity decrease , The product stock quantity increase and save
+        isExistProduct.stock_quantity = isExistProduct.stock_quantity + 1;
+        await isExistProduct.save();
         return isExistCart;
     }
     else {
@@ -86,14 +97,27 @@ const updateCart = async (id, payload) => {
             totalPriceWithoutVat * vat).toFixed(2);
         // set total price with vat
         isExistCart.total_price = Number(totalPriceWithVat);
+        //save & increase cart
         await isExistCart.save();
+        // after cart quantity increase , The product stock quantity increase and save
+        isExistProduct.stock_quantity = isExistProduct.stock_quantity - 1;
+        await isExistProduct.save();
         return isExistCart;
     }
 };
 const deleteCart = async (id) => {
+    const isExistCart = await carts_model_1.Cart.findById(id);
+    const cartOfProduct = await products_model_1.default.findById(isExistCart?.product_id);
     const result = await carts_model_1.Cart.findByIdAndDelete(id);
     if (!result) {
         throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Delete cart failed!');
+    }
+    else {
+        if (isExistCart && cartOfProduct) {
+            cartOfProduct.stock_quantity =
+                cartOfProduct?.stock_quantity + isExistCart?.quantity;
+            await cartOfProduct.save();
+        }
     }
     return result;
 };
