@@ -15,7 +15,16 @@ const createProductIntoDB = async (payload) => {
     return result;
 };
 const retrieveAllProducts = async (filter) => {
-    const result = await products_model_1.default.find().populate('category');
+    // pagination
+    const page = Number(filter.page);
+    const limit = 10;
+    const skip = (Number(page) - 1) * limit;
+    const result = await products_model_1.default.find()
+        .populate('category')
+        .skip(skip)
+        .limit(limit);
+    const totalProducts = await products_model_1.default.countDocuments(); // Total number of products
+    const totalPages = Math.ceil(totalProducts / limit); // Total number of pages
     if (!result || result?.length <= 0) {
         throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Product not found!');
     }
@@ -52,7 +61,11 @@ const retrieveAllProducts = async (filter) => {
             return 0; // No sorting
         }
     });
-    return sortedProducts;
+    return {
+        sortedProducts,
+        totalPages,
+        page,
+    };
 };
 const retrieveSingleProduct = async (id) => {
     const result = await products_model_1.default.findById(id);
