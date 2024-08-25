@@ -8,7 +8,10 @@ const app: Application = express()
 app.use(express.json())
 app.use(
   cors({
-    origin: ['https://sporting-goods-swart.vercel.app'],
+    origin: [
+      'http://localhost:5173',
+      'https://sporting-goods-swart.vercel.app',
+    ],
     credentials: true,
   }),
 )

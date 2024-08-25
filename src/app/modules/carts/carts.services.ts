@@ -63,7 +63,7 @@ const createCart = async (payload: TCart) => {
 const retrieveAllCart = async () => {
   const result = await Cart.find().populate('product_id')
 
-  if (!result || result?.length <= 0) {
+  if (!result) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Carts not found!')
   }
 
@@ -155,6 +155,7 @@ const deleteCart = async (id: string) => {
         cartOfProduct?.stock_quantity + isExistCart?.quantity
 
       await cartOfProduct.save()
+      return result
     }
   }
 
