@@ -70,5 +70,12 @@ const OrderSchema = new mongoose_1.Schema({
         type: Number,
         required: true,
     },
+    isSuccess: {
+        type: Boolean,
+    },
+    payment_method: {
+        type: String,
+        required: true,
+    },
 });
 exports.Order = (0, mongoose_1.model)('order', OrderSchema);

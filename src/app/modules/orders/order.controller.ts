@@ -14,6 +14,17 @@ const createOrder = catchAsync(async (req, res) => {
   })
 })
 
+const onlinePayment = catchAsync(async (req, res) => {
+  const data = await orderServices.onlinePayment(req.body)
+
+  successResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Payment successful!',
+    data,
+  })
+})
+
 const retrieveAllOrder = catchAsync(async (req, res) => {
   const data = await orderServices.retrieveAllOrder()
 
@@ -61,4 +72,5 @@ export const orderController = {
   retrieveSingleOrder,
   updateSingleOrder,
   deleteSingleOrder,
+  onlinePayment,
 }

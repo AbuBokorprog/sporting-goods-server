@@ -73,6 +73,13 @@ const OrderSchema = new Schema<TOrder>({
     type: Number,
     required: true,
   },
+  isSuccess: {
+    type: Boolean,
+  },
+  payment_method: {
+    type: String,
+    required: true,
+  },
 })
 
 export const Order = model('order', OrderSchema)

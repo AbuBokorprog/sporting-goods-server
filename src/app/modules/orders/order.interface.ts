@@ -7,4 +7,6 @@ export interface TOrder {
   customer_delivery_address: string
   products: TProducts[]
   total_price: number
+  isSuccess: boolean
+  payment_method: string
 }

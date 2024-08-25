@@ -22,4 +22,6 @@ exports.createOrderSchema = zod_1.z.object({
     }),
     products: zod_1.z.array(ProductSchema),
     total_price: zod_1.z.number(),
+    isSuccess: zod_1.z.boolean().optional(),
+    payment_method: zod_1.z.string(),
 });

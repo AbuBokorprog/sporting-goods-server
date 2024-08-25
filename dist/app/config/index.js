@@ -9,4 +9,6 @@ dotenv_1.default.config({ path: path_1.default.resolve(process.cwd(), '.env') })
 exports.default = {
     port: process.env.PORT,
     mongodb: process.env.MONGODB_URL,
+    publishable_key: process.env.STRIPE_PUBLISHABLE_KEY,
+    secret_key: process.env.STRIPE_SECRET_KEY,
 };

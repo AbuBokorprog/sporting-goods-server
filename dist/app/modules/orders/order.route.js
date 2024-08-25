@@ -10,6 +10,7 @@ const order_validation_1 = require("./order.validation");
 const order_controller_1 = require("./order.controller");
 const route = express_1.default.Router();
 route.post('/', (0, validationRequest_1.validationRequest)(order_validation_1.createOrderSchema), order_controller_1.orderController.createOrder);
+route.post('/online-payment', order_controller_1.orderController.onlinePayment);
 route.get('/', order_controller_1.orderController.retrieveAllOrder);
 route.get('/:id', order_controller_1.orderController.retrieveSingleOrder);
 route.put('/:id', order_controller_1.orderController.updateSingleOrder);

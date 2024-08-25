@@ -21,4 +21,6 @@ export const createOrderSchema = z.object({
   }),
   products: z.array(ProductSchema),
   total_price: z.number(),
+  isSuccess: z.boolean().optional(),
+  payment_method: z.string(),
 })

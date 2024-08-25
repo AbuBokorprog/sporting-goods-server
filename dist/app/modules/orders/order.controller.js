@@ -17,6 +17,15 @@ const createOrder = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+const onlinePayment = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    const data = await order_services_1.orderServices.onlinePayment(req.body);
+    (0, successResponse_1.successResponse)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Payment successful!',
+        data,
+    });
+});
 const retrieveAllOrder = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await order_services_1.orderServices.retrieveAllOrder();
     (0, successResponse_1.successResponse)(res, {
@@ -59,4 +68,5 @@ exports.orderController = {
     retrieveSingleOrder,
     updateSingleOrder,
     deleteSingleOrder,
+    onlinePayment,
 };

@@ -9,6 +9,7 @@ route.post(
   validationRequest(createOrderSchema),
   orderController.createOrder,
 )
+route.post('/online-payment', orderController.onlinePayment)
 route.get('/', orderController.retrieveAllOrder)
 route.get('/:id', orderController.retrieveSingleOrder)
 route.put('/:id', orderController.updateSingleOrder)
