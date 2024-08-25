@@ -10,7 +10,10 @@ const globalError_1 = require("./app/middleware/globalError");
 const notFound_1 = require("./app/middleware/notFound");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use((0, cors_1.default)({ origin: ['http://localhost:5173'], credentials: true }));
+app.use((0, cors_1.default)({
+    origin: ['https://sporting-goods-swart.vercel.app'],
+    credentials: true,
+}));
 app.get('/', (req, res) => {
     res.send('Welcome to the Sporting Goods Shop!');
 });
