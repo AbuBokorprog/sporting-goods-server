@@ -2,23 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderServices = void 0;
 const mongoose_1 = require("mongoose");
-const user_details_model_1 = require("../user-details/user.details.model");
 const order_model_1 = require("./order.model");
+const carts_model_1 = require("../carts/carts.model");
 const createOrder = async (payload) => {
-    const user = {
-        name: payload.customer_name,
-        email: payload.customer_email,
-        phone: payload.customer_phone,
-        delivery_address: payload.customer_delivery_address,
-    };
     const session = await (0, mongoose_1.startSession)();
     try {
         session.startTransaction();
-        const createUser = await user_details_model_1.UserDetails.create(user, { session });
-        if (!createUser) {
-            throw new Error('Error creating user');
-        }
-        const result = await order_model_1.Order.create(payload, { session });
+        const result = await order_model_1.Order.create([payload], { session });
+        await carts_model_1.Cart.deleteMany({}, { session });
         await session.commitTransaction();
         session.endSession();
         return result;
@@ -26,7 +17,7 @@ const createOrder = async (payload) => {
     catch (error) {
         await session.abortTransaction();
         session.endSession();
-        throw new Error('Error creating user');
+        throw new Error('Error place order');
     }
 };
 const retrieveAllOrder = async () => {

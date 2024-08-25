@@ -3,7 +3,7 @@ import { z } from 'zod'
 const ProductSchema = z.object({
   product_name: z.string(),
   image: z.array(z.string()).min(1),
-  category: z.string(),
+  category: z.string().optional(),
   description: z.string(),
   brand: z.string(),
   price: z.number().positive(),
@@ -15,7 +15,7 @@ const ProductSchema = z.object({
 export const createOrderSchema = z.object({
   customer_name: z.string({ message: 'Customer name is required' }),
   customer_email: z.string({ message: 'customer email is required' }),
-  customer_phone: z.number({ message: 'Customer phone is required' }),
+  customer_phone: z.string({ message: 'Customer phone is required' }),
   customer_delivery_address: z.string({
     message: 'Customer address is required',
   }),

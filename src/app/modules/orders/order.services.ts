@@ -1,28 +1,17 @@
 import { startSession } from 'mongoose'
-import { TUser } from '../user-details/user.details.interface'
-import { UserDetails } from '../user-details/user.details.model'
 import { TOrder } from './order.interface'
 import { Order } from './order.model'
+import { Cart } from '../carts/carts.model'
 
 const createOrder = async (payload: TOrder) => {
-  const user: TUser = {
-    name: payload.customer_name,
-    email: payload.customer_email,
-    phone: payload.customer_phone,
-    delivery_address: payload.customer_delivery_address,
-  }
   const session = await startSession()
 
   try {
     session.startTransaction()
 
-    const createUser = await UserDetails.create(user, { session })
+    const result = await Order.create([payload], { session })
 
-    if (!createUser) {
-      throw new Error('Error creating user')
-    }
-
-    const result = await Order.create(payload, { session })
+    await Cart.deleteMany({}, { session })
 
     await session.commitTransaction()
     session.endSession()
@@ -30,7 +19,7 @@ const createOrder = async (payload: TOrder) => {
   } catch (error) {
     await session.abortTransaction()
     session.endSession()
-    throw new Error('Error creating user')
+    throw new Error('Error place order')
   }
 }
 
