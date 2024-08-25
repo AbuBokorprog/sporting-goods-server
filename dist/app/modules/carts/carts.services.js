@@ -49,7 +49,7 @@ const createCart = async (payload) => {
 };
 const retrieveAllCart = async () => {
     const result = await carts_model_1.Cart.find().populate('product_id');
-    if (!result || result?.length <= 0) {
+    if (!result) {
         throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Carts not found!');
     }
     return result;
@@ -117,6 +117,7 @@ const deleteCart = async (id) => {
             cartOfProduct.stock_quantity =
                 cartOfProduct?.stock_quantity + isExistCart?.quantity;
             await cartOfProduct.save();
+            return result;
         }
     }
     return result;
