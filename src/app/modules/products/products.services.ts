@@ -26,6 +26,7 @@ const retrieveAllProducts = async (
     .populate('category')
     .skip(skip)
     .limit(limit)
+    .sort({ createdAt: -1 })
 
   const totalProducts = await Products.countDocuments() // Total number of products
   const totalPages = Math.ceil(totalProducts / limit) // Total number of pages

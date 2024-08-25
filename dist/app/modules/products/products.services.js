@@ -22,7 +22,8 @@ const retrieveAllProducts = async (filter) => {
     const result = await products_model_1.default.find()
         .populate('category')
         .skip(skip)
-        .limit(limit);
+        .limit(limit)
+        .sort({ createdAt: -1 });
     const totalProducts = await products_model_1.default.countDocuments(); // Total number of products
     const totalPages = Math.ceil(totalProducts / limit); // Total number of pages
     if (!result || result?.length <= 0) {

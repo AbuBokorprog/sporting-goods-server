@@ -14,9 +14,9 @@ const createCategory = async (payload: TCategories) => {
   return result
 }
 const retrieveAllCategory = async () => {
-  const result = await Category.find()
+  const result = await Category.find().sort({ createdAt: -1 })
 
-  if (!result || result?.length <= 0) {
+  if (!result) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Category not found!')
   }
 

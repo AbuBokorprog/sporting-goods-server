@@ -16,8 +16,8 @@ const createCategory = async (payload) => {
     return result;
 };
 const retrieveAllCategory = async () => {
-    const result = await category_model_1.Category.find();
-    if (!result || result?.length <= 0) {
+    const result = await category_model_1.Category.find().sort({ createdAt: -1 });
+    if (!result) {
         throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Category not found!');
     }
     return result;
