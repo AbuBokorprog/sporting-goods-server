@@ -13,6 +13,7 @@ route.post('/', (0, validationRequest_1.validationRequest)(products_validation_1
 route.get('/', products_controller_1.productsControllers.retrieveAllProducts);
 route.get('/:id', products_controller_1.productsControllers.retrieveSingleProduct);
 route.get('/category/:category', products_controller_1.productsControllers.retrieveProductsByCategory);
+route.get('/search/searchTerm', products_controller_1.productsControllers.retrieveProductsBySearch);
 route.put('/:id', products_controller_1.productsControllers.updateSingleProduct);
 route.delete('/:id', products_controller_1.productsControllers.deleteSingleProduct);
 exports.productsRoutes = route;

@@ -12,6 +12,7 @@ route.post(
 route.get('/', productsControllers.retrieveAllProducts)
 route.get('/:id', productsControllers.retrieveSingleProduct)
 route.get('/category/:category', productsControllers.retrieveProductsByCategory)
+route.get('/search/searchTerm', productsControllers.retrieveProductsBySearch)
 route.put('/:id', productsControllers.updateSingleProduct)
 route.delete('/:id', productsControllers.deleteSingleProduct)
 

@@ -76,6 +76,19 @@ const retrieveSingleProduct = catchAsync(async (req, res) => {
   })
 })
 
+const retrieveProductsBySearch = catchAsync(async (req, res) => {
+  const name = req.query.search_term
+
+  const data = await productsServices.retrieveProductsBySearch(name as string)
+
+  successResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'retrieve products successfully',
+    data,
+  })
+})
+
 const retrieveProductsByCategory = catchAsync(async (req, res) => {
   const data = await productsServices.retrieveProductsByCategory(
     req.params.category,
@@ -118,5 +131,6 @@ export const productsControllers = {
   retrieveSingleProduct,
   updateSingleProduct,
   deleteSingleProduct,
+  retrieveProductsBySearch,
   retrieveProductsByCategory,
 }

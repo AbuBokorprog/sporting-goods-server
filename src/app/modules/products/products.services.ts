@@ -79,6 +79,17 @@ const retrieveAllProducts = async (
     page,
   }
 }
+
+const retrieveProductsBySearch = async (name: string) => {
+  const result = await Products.find({
+    product_name: { $regex: name, $options: 'i' },
+  })
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Product not found!')
+  }
+  return result
+}
+
 const retrieveSingleProduct = async (id: string) => {
   const result = await Products.findById(id)
 
@@ -126,4 +137,5 @@ export const productsServices = {
   retrieveProductsByCategory,
   updateSingleProduct,
   deleteSingleProduct,
+  retrieveProductsBySearch,
 }
