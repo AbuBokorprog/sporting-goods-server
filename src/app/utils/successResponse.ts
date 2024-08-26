@@ -1,5 +1,5 @@
 import { Response } from 'express'
-
+// successResponse
 type Data<T> = {
   statusCode: number
   success: boolean

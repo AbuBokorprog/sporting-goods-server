@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createOrderSchema = void 0;
 const zod_1 = require("zod");
+// order validation schema
 const ProductSchema = zod_1.z.object({
     product_name: zod_1.z.string(),
     image: zod_1.z.array(zod_1.z.string()).min(1),

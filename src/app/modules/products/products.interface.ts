@@ -1,5 +1,5 @@
 import { Types } from 'mongoose'
-
+// products types interface
 export default interface TProducts {
   product_name: string
   description: string

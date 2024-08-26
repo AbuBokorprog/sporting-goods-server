@@ -3,6 +3,7 @@ import { catchAsync } from '../../utils/catchAsync'
 import { successResponse } from '../../utils/successResponse'
 import { categoryServices } from './category.services'
 
+// create category controller
 const createCategory = catchAsync(async (req, res) => {
   const data = await categoryServices.createCategory(req.body)
 
@@ -13,6 +14,7 @@ const createCategory = catchAsync(async (req, res) => {
     data,
   })
 })
+// retrieve all category
 const retrieveAllCategory = catchAsync(async (req, res) => {
   const data = await categoryServices.retrieveAllCategory()
 
@@ -23,6 +25,8 @@ const retrieveAllCategory = catchAsync(async (req, res) => {
     data,
   })
 })
+
+// retrieve single category
 const retrieveSingleCategory = catchAsync(async (req, res) => {
   const data = await categoryServices.retrieveSingleCategory(req.params.id)
 
@@ -33,6 +37,8 @@ const retrieveSingleCategory = catchAsync(async (req, res) => {
     data,
   })
 })
+
+// update category
 const updateCategory = catchAsync(async (req, res) => {
   const data = await categoryServices.updateCategory(req.params.id, req.body)
 
@@ -43,6 +49,8 @@ const updateCategory = catchAsync(async (req, res) => {
     data,
   })
 })
+
+// delete category
 const deleteCategory = catchAsync(async (req, res) => {
   const data = await categoryServices.deleteCategory(req.params.id)
 

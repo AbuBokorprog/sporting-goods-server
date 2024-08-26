@@ -1,5 +1,5 @@
 import TProducts from '../products/products.interface'
-
+// order types
 export interface TOrder {
   customer_name: string
   customer_email: string

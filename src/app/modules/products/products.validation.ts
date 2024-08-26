@@ -1,5 +1,5 @@
 import { z } from 'zod'
-
+// products validation schema
 const createdProductValidationSchema = z.object({
   product_name: z.string(),
   image: z.array(z.string()),

@@ -4,12 +4,12 @@ import router from './app/routes'
 import { globalErrorHandler } from './app/middleware/globalError'
 import { notFoundError } from './app/middleware/notFound'
 const app: Application = express()
-
+// app
 app.use(express.json())
 app.use(
   cors({
     origin: [
-      // 'http://localhost:5173',
+      'http://localhost:5173',
       'https://sporting-goods-swart.vercel.app',
     ],
     credentials: true,

@@ -6,6 +6,7 @@ import { cartRoute } from '../modules/carts/carts.route'
 import { OrderRoutes } from '../modules/orders/order.route'
 const router = express.Router()
 
+// Routes
 const moduleRoutes = [
   {
     path: '/products',

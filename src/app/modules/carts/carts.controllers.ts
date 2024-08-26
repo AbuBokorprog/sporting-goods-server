@@ -3,6 +3,7 @@ import { catchAsync } from '../../utils/catchAsync'
 import { successResponse } from '../../utils/successResponse'
 import { cartServices } from './carts.services'
 
+// create cart controller
 const createCart = catchAsync(async (req, res) => {
   const data = await cartServices.createCart(req.body)
 
@@ -13,6 +14,8 @@ const createCart = catchAsync(async (req, res) => {
     data,
   })
 })
+
+// retrieve all carts
 const retrieveAllCart = catchAsync(async (req, res) => {
   const data = await cartServices.retrieveAllCart()
 
@@ -23,6 +26,8 @@ const retrieveAllCart = catchAsync(async (req, res) => {
     data,
   })
 })
+
+// retrieve specific single cart
 const retrieveSingleCart = catchAsync(async (req, res) => {
   const data = await cartServices.retrieveSingleCart(req.params.id)
   successResponse(res, {
@@ -32,6 +37,8 @@ const retrieveSingleCart = catchAsync(async (req, res) => {
     data,
   })
 })
+
+// update cart controller
 const updateCart = catchAsync(async (req, res) => {
   const data = await cartServices.updateCart(req.params.id, req.body)
 
@@ -42,6 +49,7 @@ const updateCart = catchAsync(async (req, res) => {
     data,
   })
 })
+// delete cart controller
 const deleteCart = catchAsync(async (req, res) => {
   const data = await cartServices.deleteCart(req.params.id)
   successResponse(res, {

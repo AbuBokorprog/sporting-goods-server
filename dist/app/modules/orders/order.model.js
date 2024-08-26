@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Order = void 0;
 const mongoose_1 = require("mongoose");
+// order model
 // Define the Products schema
 const ProductsSchema = new mongoose_1.Schema({
     product_name: {

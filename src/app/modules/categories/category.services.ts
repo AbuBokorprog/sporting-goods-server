@@ -3,8 +3,11 @@ import { AppError } from '../../error/AppError'
 import { TCategories } from './category.interface'
 import { Category } from './category.model'
 
+// create category service
 const createCategory = async (payload: TCategories) => {
+  // add slug
   payload.slug = payload.category_name.toLowerCase()
+  // create category
   const result = await Category.create(payload)
 
   if (!result) {
@@ -13,6 +16,8 @@ const createCategory = async (payload: TCategories) => {
 
   return result
 }
+
+// retrieve all categories
 const retrieveAllCategory = async () => {
   const result = await Category.find().sort({ createdAt: -1 })
 
@@ -22,6 +27,8 @@ const retrieveAllCategory = async () => {
 
   return result
 }
+
+// retrieve single category
 const retrieveSingleCategory = async (id: string) => {
   const result = await Category.findById(id)
 
@@ -31,6 +38,8 @@ const retrieveSingleCategory = async (id: string) => {
 
   return result
 }
+
+// update category
 const updateCategory = async (id: string, payload: Partial<TCategories>) => {
   const result = await Category.findByIdAndUpdate(id, payload, {
     new: true,
@@ -43,6 +52,7 @@ const updateCategory = async (id: string, payload: Partial<TCategories>) => {
 
   return result
 }
+// delete category
 const deleteCategory = async (id: string) => {
   const result = await Category.findByIdAndDelete(id)
 

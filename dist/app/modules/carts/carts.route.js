@@ -9,6 +9,7 @@ const validationRequest_1 = require("../../utils/validationRequest");
 const carts_validation_1 = require("./carts.validation");
 const carts_controllers_1 = require("./carts.controllers");
 const route = express_1.default.Router();
+// cart routes
 route.post('/', (0, validationRequest_1.validationRequest)(carts_validation_1.createCartValidationSchema), carts_controllers_1.cartController.createCart);
 route.get('/', carts_controllers_1.cartController.retrieveAllCart);
 route.get('/:id', carts_controllers_1.cartController.retrieveSingleCart);

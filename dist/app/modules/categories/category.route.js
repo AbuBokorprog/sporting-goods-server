@@ -9,6 +9,7 @@ const validationRequest_1 = require("../../utils/validationRequest");
 const category_validation_1 = require("./category.validation");
 const category_controller_1 = require("./category.controller");
 const route = express_1.default.Router();
+// categories route
 route.post('/', (0, validationRequest_1.validationRequest)(category_validation_1.createCategoryValidationSchema), category_controller_1.categoryControllers.createCategory);
 route.get('/', category_controller_1.categoryControllers.retrieveAllCategory);
 route.get('/:id', category_controller_1.categoryControllers.retrieveSingleCategory);

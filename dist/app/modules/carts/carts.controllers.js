@@ -8,6 +8,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = require("../../utils/catchAsync");
 const successResponse_1 = require("../../utils/successResponse");
 const carts_services_1 = require("./carts.services");
+// create cart controller
 const createCart = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await carts_services_1.cartServices.createCart(req.body);
     (0, successResponse_1.successResponse)(res, {
@@ -17,6 +18,7 @@ const createCart = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// retrieve all carts
 const retrieveAllCart = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await carts_services_1.cartServices.retrieveAllCart();
     (0, successResponse_1.successResponse)(res, {
@@ -26,6 +28,7 @@ const retrieveAllCart = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// retrieve specific single cart
 const retrieveSingleCart = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await carts_services_1.cartServices.retrieveSingleCart(req.params.id);
     (0, successResponse_1.successResponse)(res, {
@@ -35,6 +38,7 @@ const retrieveSingleCart = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// update cart controller
 const updateCart = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await carts_services_1.cartServices.updateCart(req.params.id, req.body);
     (0, successResponse_1.successResponse)(res, {
@@ -44,6 +48,7 @@ const updateCart = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// delete cart controller
 const deleteCart = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await carts_services_1.cartServices.deleteCart(req.params.id);
     (0, successResponse_1.successResponse)(res, {

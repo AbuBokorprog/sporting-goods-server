@@ -9,6 +9,7 @@ const products_controller_1 = require("./products.controller");
 const validationRequest_1 = require("../../utils/validationRequest");
 const products_validation_1 = require("./products.validation");
 const route = express_1.default.Router();
+// products route
 route.post('/', (0, validationRequest_1.validationRequest)(products_validation_1.createdProductValidationSchema), products_controller_1.productsControllers.createProductIntoDB);
 route.get('/', products_controller_1.productsControllers.retrieveAllProducts);
 route.get('/:id', products_controller_1.productsControllers.retrieveSingleProduct);

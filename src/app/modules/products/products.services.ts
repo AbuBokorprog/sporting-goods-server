@@ -5,20 +5,23 @@ import { Document, FilterQuery } from 'mongoose'
 import { ProductFilter } from './products.utils'
 import TProducts from './products.interface'
 
+// create product service
 const createProductIntoDB = async (payload: TProducts) => {
   const result = await Products.create(payload)
 
+  // check is not create product
   if (!result) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Created product failed!')
   }
 
   return result
 }
+
+// retrieve all products with filters
 const retrieveAllProducts = async (
   filter: FilterQuery<Document<ProductFilter>>,
 ) => {
   // pagination
-
   const page = Number(filter.page)
   const limit = 10
   const skip = (Number(page) - 1) * limit
@@ -28,15 +31,16 @@ const retrieveAllProducts = async (
     .limit(limit)
     .sort({ createdAt: -1 })
 
-  const totalProducts = await Products.countDocuments() // Total number of products
-  const totalPages = Math.ceil(totalProducts / limit) // Total number of pages
+  // total products
+  const totalProducts = await Products.countDocuments()
+  // total page
+  const totalPages = Math.ceil(totalProducts / limit)
 
   if (!result || result?.length <= 0) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Product not found!')
   }
 
-  // Apply additional filtering on the server side
-
+  // filter products
   const result1 = result.filter((product: TProducts) => {
     let matches = true
 
@@ -62,14 +66,14 @@ const retrieveAllProducts = async (
     return matches
   })
 
-  // Sort the filtered products
+  // Sort products
   const sortedProducts = result1.sort((a: TProducts, b: TProducts) => {
     if (filter.sortOrder === 'price-asc') {
       return a.price - b.price // Low to high
     } else if (filter.sortOrder === 'price-desc') {
       return b.price - a.price // High to low
     } else {
-      return 0 // No sorting
+      return 0
     }
   })
 
@@ -80,6 +84,7 @@ const retrieveAllProducts = async (
   }
 }
 
+// retrieve products by search
 const retrieveProductsBySearch = async (name: string) => {
   const result = await Products.find({
     product_name: { $regex: name, $options: 'i' },
@@ -89,7 +94,7 @@ const retrieveProductsBySearch = async (name: string) => {
   }
   return result
 }
-
+// retrieve product
 const retrieveSingleProduct = async (id: string) => {
   const result = await Products.findById(id)
 
@@ -99,7 +104,7 @@ const retrieveSingleProduct = async (id: string) => {
 
   return result
 }
-
+// retrieve products by category
 const retrieveProductsByCategory = async (category: string) => {
   const result = await Products.find({ category })
   if (!result) {
@@ -107,7 +112,7 @@ const retrieveProductsByCategory = async (category: string) => {
   }
   return result
 }
-
+// update product
 const updateSingleProduct = async (id: string, payload: Partial<TProducts>) => {
   const result = await Products.findByIdAndUpdate(id, payload, {
     new: true,
@@ -120,6 +125,7 @@ const updateSingleProduct = async (id: string, payload: Partial<TProducts>) => {
 
   return result
 }
+// delete product
 const deleteSingleProduct = async (id: string) => {
   const result = await Products.findByIdAndDelete(id)
 

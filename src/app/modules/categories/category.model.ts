@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose'
 import { TCategories } from './category.interface'
 
+// categories model
 const CategorySchema = new Schema<TCategories>(
   {
     slug: {

@@ -8,6 +8,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = require("../../utils/catchAsync");
 const successResponse_1 = require("../../utils/successResponse");
 const products_services_1 = require("./products.services");
+// create product controller
 const createProductIntoDB = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await products_services_1.productsServices.createProductIntoDB(req.body);
     (0, successResponse_1.successResponse)(res, {
@@ -17,7 +18,9 @@ const createProductIntoDB = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// retrieve all products controller
 const retrieveAllProducts = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    // query
     const { category, minPrice, maxPrice, rating, brand, sortOrder, page } = req.query;
     // Build filter object based on query parameters
     const filter = {};
@@ -42,14 +45,13 @@ const retrieveAllProducts = (0, catchAsync_1.catchAsync)(async (req, res) => {
     if (page) {
         filter.page = page;
     }
-    // Fetch data from the service layer with applied filters
+    // Fetch data with applied filters
     const result = await products_services_1.productsServices.retrieveAllProducts(filter);
     const data = {
         totalPages: result?.totalPages,
         page: result?.page,
         data: result?.sortedProducts,
     };
-    // Send a successful response with the filtered data
     (0, successResponse_1.successResponse)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -57,6 +59,7 @@ const retrieveAllProducts = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// retrieve product controller
 const retrieveSingleProduct = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await products_services_1.productsServices.retrieveSingleProduct(req.params.id);
     (0, successResponse_1.successResponse)(res, {
@@ -66,6 +69,7 @@ const retrieveSingleProduct = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// retrieve products by search controller
 const retrieveProductsBySearch = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const name = req.query.search_term;
     const data = await products_services_1.productsServices.retrieveProductsBySearch(name);
@@ -76,6 +80,7 @@ const retrieveProductsBySearch = (0, catchAsync_1.catchAsync)(async (req, res) =
         data,
     });
 });
+// retrieve products by category controller
 const retrieveProductsByCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await products_services_1.productsServices.retrieveProductsByCategory(req.params.category);
     (0, successResponse_1.successResponse)(res, {
@@ -85,6 +90,7 @@ const retrieveProductsByCategory = (0, catchAsync_1.catchAsync)(async (req, res)
         data,
     });
 });
+// update product controller
 const updateSingleProduct = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await products_services_1.productsServices.updateSingleProduct(req.params.id, req.body);
     (0, successResponse_1.successResponse)(res, {
@@ -94,6 +100,7 @@ const updateSingleProduct = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// delete product controller
 const deleteSingleProduct = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await products_services_1.productsServices.deleteSingleProduct(req.params.id);
     (0, successResponse_1.successResponse)(res, {

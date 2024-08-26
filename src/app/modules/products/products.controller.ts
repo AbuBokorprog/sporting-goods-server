@@ -4,6 +4,7 @@ import { successResponse } from '../../utils/successResponse'
 import { productsServices } from './products.services'
 import { ProductFilter } from './products.utils'
 
+// create product controller
 const createProductIntoDB = catchAsync(async (req, res) => {
   const data = await productsServices.createProductIntoDB(req.body)
 
@@ -14,7 +15,9 @@ const createProductIntoDB = catchAsync(async (req, res) => {
     data,
   })
 })
+// retrieve all products controller
 const retrieveAllProducts = catchAsync(async (req, res) => {
+  // query
   const { category, minPrice, maxPrice, rating, brand, sortOrder, page } =
     req.query
 
@@ -47,7 +50,7 @@ const retrieveAllProducts = catchAsync(async (req, res) => {
     filter.page = page as string
   }
 
-  // Fetch data from the service layer with applied filters
+  // Fetch data with applied filters
   const result = await productsServices.retrieveAllProducts(filter)
 
   const data = {
@@ -56,7 +59,6 @@ const retrieveAllProducts = catchAsync(async (req, res) => {
     data: result?.sortedProducts,
   }
 
-  // Send a successful response with the filtered data
   successResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -64,7 +66,7 @@ const retrieveAllProducts = catchAsync(async (req, res) => {
     data,
   })
 })
-
+// retrieve product controller
 const retrieveSingleProduct = catchAsync(async (req, res) => {
   const data = await productsServices.retrieveSingleProduct(req.params.id)
 
@@ -75,7 +77,7 @@ const retrieveSingleProduct = catchAsync(async (req, res) => {
     data,
   })
 })
-
+// retrieve products by search controller
 const retrieveProductsBySearch = catchAsync(async (req, res) => {
   const name = req.query.search_term
 
@@ -88,7 +90,7 @@ const retrieveProductsBySearch = catchAsync(async (req, res) => {
     data,
   })
 })
-
+// retrieve products by category controller
 const retrieveProductsByCategory = catchAsync(async (req, res) => {
   const data = await productsServices.retrieveProductsByCategory(
     req.params.category,
@@ -101,7 +103,7 @@ const retrieveProductsByCategory = catchAsync(async (req, res) => {
     data,
   })
 })
-
+// update product controller
 const updateSingleProduct = catchAsync(async (req, res) => {
   const data = await productsServices.updateSingleProduct(
     req.params.id,
@@ -115,6 +117,7 @@ const updateSingleProduct = catchAsync(async (req, res) => {
     data,
   })
 })
+// delete product controller
 const deleteSingleProduct = catchAsync(async (req, res) => {
   const data = await productsServices.deleteSingleProduct(req.params.id)
   successResponse(res, {

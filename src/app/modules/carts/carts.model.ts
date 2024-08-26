@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose'
 import { TCart } from './carts.interface'
 
+// cart model
 const cartsSchema = new Schema<TCart>(
   {
     product_id: {

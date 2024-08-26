@@ -1,6 +1,6 @@
 import mongoose, { model, Schema } from 'mongoose'
 import TProducts from './products.interface'
-
+// products model
 const ProductsSchema = new mongoose.Schema<TProducts>(
   {
     product_name: {

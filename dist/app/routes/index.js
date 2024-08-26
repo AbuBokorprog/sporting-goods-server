@@ -10,6 +10,7 @@ const user_details_route_1 = require("../modules/user-details/user.details.route
 const carts_route_1 = require("../modules/carts/carts.route");
 const order_route_1 = require("../modules/orders/order.route");
 const router = express_1.default.Router();
+// Routes
 const moduleRoutes = [
     {
         path: '/products',

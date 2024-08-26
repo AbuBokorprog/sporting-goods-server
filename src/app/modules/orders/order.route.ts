@@ -4,6 +4,7 @@ import { createOrderSchema } from './order.validation'
 import { orderController } from './order.controller'
 const route = express.Router()
 
+// order routes
 route.post(
   '/',
   validationRequest(createOrderSchema),

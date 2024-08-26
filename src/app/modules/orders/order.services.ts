@@ -8,8 +8,11 @@ import httpStatus from 'http-status'
 import { AppError } from '../../error/AppError'
 const stripe = new Stripe(config.secret_key as string)
 
+// create order service
 const createOrder = async (payload: TOrder) => {
   const session = await startSession()
+
+  // if COD order
   if (payload?.payment_method === 'Cash on Delivery') {
     try {
       session.startTransaction()
@@ -27,6 +30,7 @@ const createOrder = async (payload: TOrder) => {
       throw new Error('Error place order')
     }
   } else {
+    // if online payment order
     try {
       session.startTransaction()
       payload.isSuccess = false
@@ -45,6 +49,7 @@ const createOrder = async (payload: TOrder) => {
   }
 }
 
+// online payment service
 const onlinePayment = async ({
   paymentMethodId,
   productId,
@@ -52,16 +57,16 @@ const onlinePayment = async ({
   paymentMethodId: string
   productId: string
 }) => {
+  // check is order exist?
   const isExistOrder = await Order.findById(productId)
-
+  if (!isExistOrder) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Order not exist')
+  }
   try {
-    if (!isExistOrder) {
-      throw new AppError(httpStatus.NOT_FOUND, 'Order not exist')
-    }
-
+    // create stripe payment intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount: isExistOrder?.total_price,
-      currency: 'usd',
+      currency: 'BDT',
       payment_method: paymentMethodId,
       confirm: true,
       automatic_payment_methods: {
@@ -70,6 +75,11 @@ const onlinePayment = async ({
       },
     })
 
+    if (!paymentIntent) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Online payment failed!')
+    }
+
+    // order success true
     isExistOrder.isSuccess = true
     isExistOrder.save()
 
@@ -79,15 +89,19 @@ const onlinePayment = async ({
   }
 }
 
+// retrieve all orders
 const retrieveAllOrder = async () => {
   const result = await Order.find()
 
   return result
 }
+// retrieve single order
 const retrieveSingleOrder = async (id: string) => {
   const result = await Order.findById(id)
   return result
 }
+
+// update order
 const updateSingleOrder = async (id: string, payload: Partial<TOrder>) => {
   const result = await Order.findByIdAndUpdate(id, payload, {
     new: true,
@@ -95,6 +109,7 @@ const updateSingleOrder = async (id: string, payload: Partial<TOrder>) => {
   })
   return result
 }
+// delete order
 const deleteSingleOrder = async (id: string) => {
   const result = await Order.findByIdAndDelete(id)
   return result

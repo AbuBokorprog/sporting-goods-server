@@ -7,13 +7,16 @@ exports.productsServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = require("../../error/AppError");
 const products_model_1 = __importDefault(require("./products.model"));
+// create product service
 const createProductIntoDB = async (payload) => {
     const result = await products_model_1.default.create(payload);
+    // check is not create product
     if (!result) {
         throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Created product failed!');
     }
     return result;
 };
+// retrieve all products with filters
 const retrieveAllProducts = async (filter) => {
     // pagination
     const page = Number(filter.page);
@@ -24,12 +27,14 @@ const retrieveAllProducts = async (filter) => {
         .skip(skip)
         .limit(limit)
         .sort({ createdAt: -1 });
-    const totalProducts = await products_model_1.default.countDocuments(); // Total number of products
-    const totalPages = Math.ceil(totalProducts / limit); // Total number of pages
+    // total products
+    const totalProducts = await products_model_1.default.countDocuments();
+    // total page
+    const totalPages = Math.ceil(totalProducts / limit);
     if (!result || result?.length <= 0) {
         throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Product not found!');
     }
-    // Apply additional filtering on the server side
+    // filter products
     const result1 = result.filter((product) => {
         let matches = true;
         if (filter.category &&
@@ -50,7 +55,7 @@ const retrieveAllProducts = async (filter) => {
         }
         return matches;
     });
-    // Sort the filtered products
+    // Sort products
     const sortedProducts = result1.sort((a, b) => {
         if (filter.sortOrder === 'price-asc') {
             return a.price - b.price; // Low to high
@@ -59,7 +64,7 @@ const retrieveAllProducts = async (filter) => {
             return b.price - a.price; // High to low
         }
         else {
-            return 0; // No sorting
+            return 0;
         }
     });
     return {
@@ -68,6 +73,7 @@ const retrieveAllProducts = async (filter) => {
         page,
     };
 };
+// retrieve products by search
 const retrieveProductsBySearch = async (name) => {
     const result = await products_model_1.default.find({
         product_name: { $regex: name, $options: 'i' },
@@ -77,6 +83,7 @@ const retrieveProductsBySearch = async (name) => {
     }
     return result;
 };
+// retrieve product
 const retrieveSingleProduct = async (id) => {
     const result = await products_model_1.default.findById(id);
     if (!result) {
@@ -84,6 +91,7 @@ const retrieveSingleProduct = async (id) => {
     }
     return result;
 };
+// retrieve products by category
 const retrieveProductsByCategory = async (category) => {
     const result = await products_model_1.default.find({ category });
     if (!result) {
@@ -91,6 +99,7 @@ const retrieveProductsByCategory = async (category) => {
     }
     return result;
 };
+// update product
 const updateSingleProduct = async (id, payload) => {
     const result = await products_model_1.default.findByIdAndUpdate(id, payload, {
         new: true,
@@ -101,6 +110,7 @@ const updateSingleProduct = async (id, payload) => {
     }
     return result;
 };
+// delete product
 const deleteSingleProduct = async (id) => {
     const result = await products_model_1.default.findByIdAndDelete(id);
     if (!result) {

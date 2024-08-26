@@ -12,8 +12,10 @@ const config_1 = __importDefault(require("../../config"));
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = require("../../error/AppError");
 const stripe = new stripe_1.default(config_1.default.secret_key);
+// create order service
 const createOrder = async (payload) => {
     const session = await (0, mongoose_1.startSession)();
+    // if COD order
     if (payload?.payment_method === 'Cash on Delivery') {
         try {
             session.startTransaction();
@@ -31,6 +33,7 @@ const createOrder = async (payload) => {
         }
     }
     else {
+        // if online payment order
         try {
             session.startTransaction();
             payload.isSuccess = false;
@@ -47,15 +50,18 @@ const createOrder = async (payload) => {
         }
     }
 };
+// online payment service
 const onlinePayment = async ({ paymentMethodId, productId, }) => {
+    // check is order exist?
     const isExistOrder = await order_model_1.Order.findById(productId);
+    if (!isExistOrder) {
+        throw new AppError_1.AppError(http_status_1.default.NOT_FOUND, 'Order not exist');
+    }
     try {
-        if (!isExistOrder) {
-            throw new AppError_1.AppError(http_status_1.default.NOT_FOUND, 'Order not exist');
-        }
+        // create stripe payment intent
         const paymentIntent = await stripe.paymentIntents.create({
             amount: isExistOrder?.total_price,
-            currency: 'usd',
+            currency: 'BDT',
             payment_method: paymentMethodId,
             confirm: true,
             automatic_payment_methods: {
@@ -63,6 +69,10 @@ const onlinePayment = async ({ paymentMethodId, productId, }) => {
                 allow_redirects: 'never',
             },
         });
+        if (!paymentIntent) {
+            throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Online payment failed!');
+        }
+        // order success true
         isExistOrder.isSuccess = true;
         isExistOrder.save();
         return { clientSecret: paymentIntent.client_secret };
@@ -71,14 +81,17 @@ const onlinePayment = async ({ paymentMethodId, productId, }) => {
         throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Online payment failed!');
     }
 };
+// retrieve all orders
 const retrieveAllOrder = async () => {
     const result = await order_model_1.Order.find();
     return result;
 };
+// retrieve single order
 const retrieveSingleOrder = async (id) => {
     const result = await order_model_1.Order.findById(id);
     return result;
 };
+// update order
 const updateSingleOrder = async (id, payload) => {
     const result = await order_model_1.Order.findByIdAndUpdate(id, payload, {
         new: true,
@@ -86,6 +99,7 @@ const updateSingleOrder = async (id, payload) => {
     });
     return result;
 };
+// delete order
 const deleteSingleOrder = async (id) => {
     const result = await order_model_1.Order.findByIdAndDelete(id);
     return result;

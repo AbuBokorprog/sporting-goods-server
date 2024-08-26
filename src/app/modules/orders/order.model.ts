@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose'
 import { TOrder } from './order.interface'
-
+// order model
 // Define the Products schema
 const ProductsSchema = new Schema(
   {

@@ -3,6 +3,7 @@ import { catchAsync } from '../../utils/catchAsync'
 import { successResponse } from '../../utils/successResponse'
 import { orderServices } from './order.services'
 
+// create order controller
 const createOrder = catchAsync(async (req, res) => {
   const data = await orderServices.createOrder(req.body)
 
@@ -14,6 +15,7 @@ const createOrder = catchAsync(async (req, res) => {
   })
 })
 
+// online payment order controller
 const onlinePayment = catchAsync(async (req, res) => {
   const data = await orderServices.onlinePayment(req.body)
 
@@ -25,6 +27,7 @@ const onlinePayment = catchAsync(async (req, res) => {
   })
 })
 
+// retrieve all order controller
 const retrieveAllOrder = catchAsync(async (req, res) => {
   const data = await orderServices.retrieveAllOrder()
 
@@ -35,6 +38,8 @@ const retrieveAllOrder = catchAsync(async (req, res) => {
     data,
   })
 })
+
+// retrieve single order controller
 const retrieveSingleOrder = catchAsync(async (req, res) => {
   const data = await orderServices.retrieveSingleOrder(req.params.id)
 
@@ -45,6 +50,7 @@ const retrieveSingleOrder = catchAsync(async (req, res) => {
     data,
   })
 })
+// update order
 const updateSingleOrder = catchAsync(async (req, res) => {
   const data = await orderServices.updateSingleOrder(req.params.id, req.body)
 
@@ -55,6 +61,7 @@ const updateSingleOrder = catchAsync(async (req, res) => {
     data,
   })
 })
+// delete order
 const deleteSingleOrder = catchAsync(async (req, res) => {
   const data = await orderServices.deleteSingleOrder(req.params.id)
 

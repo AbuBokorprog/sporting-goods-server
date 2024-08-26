@@ -8,6 +8,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = require("../../utils/catchAsync");
 const successResponse_1 = require("../../utils/successResponse");
 const category_services_1 = require("./category.services");
+// create category controller
 const createCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await category_services_1.categoryServices.createCategory(req.body);
     (0, successResponse_1.successResponse)(res, {
@@ -17,6 +18,7 @@ const createCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// retrieve all category
 const retrieveAllCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await category_services_1.categoryServices.retrieveAllCategory();
     (0, successResponse_1.successResponse)(res, {
@@ -26,6 +28,7 @@ const retrieveAllCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// retrieve single category
 const retrieveSingleCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await category_services_1.categoryServices.retrieveSingleCategory(req.params.id);
     (0, successResponse_1.successResponse)(res, {
@@ -35,6 +38,7 @@ const retrieveSingleCategory = (0, catchAsync_1.catchAsync)(async (req, res) => 
         data,
     });
 });
+// update category
 const updateCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await category_services_1.categoryServices.updateCategory(req.params.id, req.body);
     (0, successResponse_1.successResponse)(res, {
@@ -44,6 +48,7 @@ const updateCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data,
     });
 });
+// delete category
 const deleteCategory = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const data = await category_services_1.categoryServices.deleteCategory(req.params.id);
     (0, successResponse_1.successResponse)(res, {

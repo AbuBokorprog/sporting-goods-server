@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cart = void 0;
 const mongoose_1 = require("mongoose");
+// cart model
 const cartsSchema = new mongoose_1.Schema({
     product_id: {
         type: mongoose_1.Schema.Types.ObjectId,

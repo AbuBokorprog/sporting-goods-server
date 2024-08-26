@@ -9,10 +9,11 @@ const routes_1 = __importDefault(require("./app/routes"));
 const globalError_1 = require("./app/middleware/globalError");
 const notFound_1 = require("./app/middleware/notFound");
 const app = (0, express_1.default)();
+// app
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     origin: [
-        // 'http://localhost:5173',
+        'http://localhost:5173',
         'https://sporting-goods-swart.vercel.app',
     ],
     credentials: true,

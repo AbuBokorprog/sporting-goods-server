@@ -1,4 +1,4 @@
-// Define the interface for your filter object
+// product filter query types interface
 export interface ProductFilter {
   category?: string
   minPrice?: number

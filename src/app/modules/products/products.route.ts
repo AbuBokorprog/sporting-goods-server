@@ -3,7 +3,7 @@ import { productsControllers } from './products.controller'
 import { validationRequest } from '../../utils/validationRequest'
 import { createdProductValidationSchema } from './products.validation'
 const route = express.Router()
-
+// products route
 route.post(
   '/',
   validationRequest(createdProductValidationSchema),

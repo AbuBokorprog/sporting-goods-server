@@ -7,14 +7,18 @@ exports.categoryServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = require("../../error/AppError");
 const category_model_1 = require("./category.model");
+// create category service
 const createCategory = async (payload) => {
+    // add slug
     payload.slug = payload.category_name.toLowerCase();
+    // create category
     const result = await category_model_1.Category.create(payload);
     if (!result) {
         throw new AppError_1.AppError(http_status_1.default.BAD_REQUEST, 'Create category failed!');
     }
     return result;
 };
+// retrieve all categories
 const retrieveAllCategory = async () => {
     const result = await category_model_1.Category.find().sort({ createdAt: -1 });
     if (!result) {
@@ -22,6 +26,7 @@ const retrieveAllCategory = async () => {
     }
     return result;
 };
+// retrieve single category
 const retrieveSingleCategory = async (id) => {
     const result = await category_model_1.Category.findById(id);
     if (!result) {
@@ -29,6 +34,7 @@ const retrieveSingleCategory = async (id) => {
     }
     return result;
 };
+// update category
 const updateCategory = async (id, payload) => {
     const result = await category_model_1.Category.findByIdAndUpdate(id, payload, {
         new: true,
@@ -39,6 +45,7 @@ const updateCategory = async (id, payload) => {
     }
     return result;
 };
+// delete category
 const deleteCategory = async (id) => {
     const result = await category_model_1.Category.findByIdAndDelete(id);
     if (!result) {

@@ -7,6 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("./app/config"));
 const app_1 = __importDefault(require("./app"));
 let server;
+// server
 async function main() {
     try {
         await mongoose_1.default.connect(`${config_1.default.mongodb}`);

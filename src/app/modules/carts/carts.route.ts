@@ -7,6 +7,7 @@ import {
 import { cartController } from './carts.controllers'
 const route = express.Router()
 
+// cart routes
 route.post(
   '/',
   validationRequest(createCartValidationSchema),

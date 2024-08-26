@@ -4,13 +4,13 @@ import { TCart } from './carts.interface'
 import { Cart } from './carts.model'
 import { AppError } from '../../error/AppError'
 
+// create cart service
 const createCart = async (payload: TCart) => {
   // vat 0.15 add in total price
   const vat = 0.15
 
-  // check isExistProduct
   const isExistProduct = await Products.findById(payload.product_id)
-
+  // check isExistProduct
   if (!isExistProduct) {
     throw new Error('The product not found')
   }
@@ -22,9 +22,10 @@ const createCart = async (payload: TCart) => {
     // quantity increase if exist same product is cart
     isExistCart.quantity = isExistCart.quantity + 1
 
-    // total price of product
+    // total price of product without vat
     const totalPriceWithoutVat = isExistProduct?.price * isExistCart.quantity
 
+    // total price of product with vat
     const totalPriceWithVat = (
       totalPriceWithoutVat +
       totalPriceWithoutVat * vat
@@ -60,6 +61,7 @@ const createCart = async (payload: TCart) => {
     return result
   }
 }
+// retrieve all cart
 const retrieveAllCart = async () => {
   const result = await Cart.find().populate('product_id')
 
@@ -69,7 +71,7 @@ const retrieveAllCart = async () => {
 
   return result
 }
-
+// retrieve single cart
 const retrieveSingleCart = async (id: string) => {
   const result = await Cart.findById(id)
 
@@ -79,7 +81,7 @@ const retrieveSingleCart = async (id: string) => {
 
   return result
 }
-
+// retrieve update cart
 const updateCart = async (id: string, payload: Partial<TCart>) => {
   const vat = 0.15
   const isExistCart = await Cart.findById(id)
@@ -141,6 +143,7 @@ const updateCart = async (id: string, payload: Partial<TCart>) => {
   }
 }
 
+// delete cart
 const deleteCart = async (id: string) => {
   const isExistCart = await Cart.findById(id)
   const cartOfProduct = await Products.findById(isExistCart?.product_id)
