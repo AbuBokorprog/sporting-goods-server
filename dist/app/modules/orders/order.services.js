@@ -54,13 +54,13 @@ const onlinePayment = async ({ paymentMethodId, productId, }) => {
             throw new AppError_1.AppError(http_status_1.default.NOT_FOUND, 'Order not exist');
         }
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: 5000, // Replace with the actual amount in cents
+            amount: isExistOrder?.total_price,
             currency: 'usd',
             payment_method: paymentMethodId,
             confirm: true,
             automatic_payment_methods: {
                 enabled: true,
-                allow_redirects: 'never', // Prevents redirect-based payment methods
+                allow_redirects: 'never',
             },
         });
         isExistOrder.isSuccess = true;
